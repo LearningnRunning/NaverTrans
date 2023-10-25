@@ -12,10 +12,10 @@ def install():
     desc = ''
     setup(
         name='navertrans',
-        version='0.1',
+        version='0.0.1',
         description=desc,
         long_description=desc,
-        author='Seongrok Kim',
+        author='learningnRunning',
         author_email='max_sungrok@naver.com',
         url='https://github.com/LearningnRunning/k_translator',
         classifiers=[
