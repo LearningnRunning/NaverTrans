@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 with open('README.md', encoding='utf-8') as f:
     long_description = f.read()
     
-def install():
+def install(long_description = long_description):
     required = []
     with open('requirements.txt') as f:
         requirements = f.read().splitlines()
