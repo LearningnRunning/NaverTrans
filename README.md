@@ -14,7 +14,9 @@ pip install navertrans
 or
 
 ```bash
-git clone 
+git clone https://github.com/LearningnRunning/NaverTrans.git
+
+python setup.py install
 ```
 
 ## List of languages ​​available for translation
