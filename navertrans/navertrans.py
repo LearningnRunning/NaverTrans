@@ -103,6 +103,6 @@ def translate(text, src_lan = 'en', tar_lan = 'ko'):
         'words': OrderedDict(),
     }
 
-    result = Checked(**result)
+    # result = Checked(**result)
 
     return result['translatedText']
