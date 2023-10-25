@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 from setuptools import setup, find_packages
 
-
+with open('README.md', encoding='utf-8') as f:
+    long_description = f.read()
+    
 def install():
     required = []
     with open('requirements.txt') as f:
@@ -15,6 +17,8 @@ def install():
         version='0.0.1',
         description=desc,
         long_description=desc,
+        long_description = long_description,
+        long_description_content_type='text/markdown',
         author='learningnRunning',
         author_email='max_sungrok@naver.com',
         url='https://github.com/LearningnRunning/NaverTrans.git',
