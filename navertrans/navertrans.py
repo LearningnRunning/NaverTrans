@@ -15,7 +15,6 @@ import xml.etree.ElementTree as ET
 from . import __version__
 from .response import Checked
 from .constants import base_url
-from .constants import CheckResult
 
 _agent = requests.Session()
 PY3 = sys.version_info[0] == 3
@@ -64,7 +63,7 @@ def get_response(TOKEN, text, src_lan, tar_lan):
     return r
 
 
-def translate(text, src_lan = 'ko', tar_lan = 'en'):
+def translate(text, src_lan = 'en', tar_lan = 'ko'):
     """
     Translate text from one language to another.
 
@@ -83,9 +82,9 @@ def translate(text, src_lan = 'ko', tar_lan = 'en'):
             result.append(checked)
         return result
 
-    # # 최대 500자까지 가능.
-    # if len(text) > 500:
-    #     return Checked(result=False)
+    # 최대 500자까지 가능.
+    if len(text) > 500:
+        return Checked(result=False)
     
     start_time = time.time()
     r = get_response(read_token(), text, src_lan, tar_lan)
@@ -104,6 +103,6 @@ def translate(text, src_lan = 'ko', tar_lan = 'en'):
         'words': OrderedDict(),
     }
 
-    # result = Checked(**result)
+    result = Checked(**result)
 
     return result['translatedText']
