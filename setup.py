@@ -17,6 +17,7 @@ def install():
     setup(
         name='navertrans',
         version='0.0.1',
+        description= 'Thanks for NAVER',
         long_description = long_description,
         long_description_content_type='text/markdown',
         author='learningnRunning',
