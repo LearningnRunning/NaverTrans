@@ -38,7 +38,7 @@ python setup.py install
 
 You can use these language codes when specifying the source and destination languages for translation in your NaverTrans project.
 
-### an example of using the navertrans library
+### An example of using the navertrans library
 ```
 from navertrans import navertrans
 
