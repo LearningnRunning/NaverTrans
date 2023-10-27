@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 from setuptools import setup, find_packages
+from navertrans.__init__ import __version__
 
 required=[]
 with open('requirements.txt') as f:
@@ -12,7 +13,7 @@ with open('README.md', encoding='utf-8') as f:
     long_description = f.read()     
 setup(
     name='navertrans',
-    version='0.0.2',
+    version= __version__,
     description= 'Thanks for NAVER',
     long_description = long_description,
     long_description_content_type='text/markdown',
@@ -23,7 +24,7 @@ setup(
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Education',
         'Intended Audience :: End Users/Desktop',
-        'License :: Freeware',
+        'License :: CC BY-NC 4.0',
         'Operating System :: POSIX',
         'Operating System :: Microsoft :: Windows',
         'Operating System :: MacOS :: MacOS X',
@@ -50,7 +51,7 @@ def install():
         
     setup(
         name='navertrans',
-        version='0.0.2',
+        version= __version__,
         description= 'Thanks for NAVER',
         long_description = open('README.md').read(),
         long_description_content_type='text/markdown',

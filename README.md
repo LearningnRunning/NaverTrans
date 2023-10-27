@@ -38,7 +38,7 @@ python setup.py install
 
 You can use these language codes when specifying the source and destination languages for translation in your NaverTrans project.
 
-### An example of using the navertrans library
+## An example of using the navertrans library
 ```
 from navertrans import navertrans
 
@@ -49,3 +49,20 @@ print(result)  # Output: '네이버에게 박수 부탁드립니다.'
 ```
 
 In this example, src_txt contains the text you want to translate, and the translate function is called with the default source ('en') and target ('ko') languages. The translated text is stored in the result variable, and it is printed to the console.
+
+## Referenced Repository
+- [py-hanspell](https://github.com/ssut/py-hanspell) - A useful repository for [A Python package that checks and corrects the spelling of Korean characters.].
+
+## License
+navertrans is provided under the CC BY-NC 4.0 license. 
+
+### Creative Commons Attribution-NonCommercial-NoDerivatives (CC BY-NC-ND)
+
+Choose this license if you want to permit others to **_share_** (mirror) your mod content, providing that they credit you and don't use your work for commercial purposes.
+
+You can view additional details on [this page](https://creativecommons.org/licenses/by-nc-nd/4.0/), which you should link to in your readme.
+
+### Usage Guidelines
+This library is built upon Naver Translator.
+
+All copyright and responsibility for all results and data belong to NAVER Corp. The developer assumes no responsibility for any part of the library used for commercial purposes. Please be aware that the CC BY-NC 4.0 license restricts commercial usage, and you should respect the terms of this license.

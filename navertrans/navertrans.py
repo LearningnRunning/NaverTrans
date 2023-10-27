@@ -63,7 +63,7 @@ def get_response(TOKEN, text, src_lan, tar_lan):
     return r
 
 
-def translate(text, src_lan = 'en', tar_lan = 'ko'):
+def translate(src_txt, src_lan = 'en', tar_lan = 'ko'):
     """
     Translate text from one language to another.
 
@@ -75,30 +75,58 @@ def translate(text, src_lan = 'en', tar_lan = 'ko'):
     Returns:
         str: The translated text in the target language.
     """
-    if isinstance(text, list):
+    if isinstance(src_txt, list):
         result = []
-        for item in text:
+        for item in src_txt:
             checked = translate(item)
             result.append(checked)
         return result
 
-    # 최대 500자까지 가능.
-    if len(text) > 500:
-        return Checked(result=False)
+    # # 최대 500자까지 가능.
+    # if len(src_txt) > 500:
+    #     return Checked(result=False)
     
-    start_time = time.time()
-    r = get_response(read_token(), text, src_lan, tar_lan)
-    passed_time = time.time() - start_time
     
-    data = json.loads(r.text)
+    src_txt_list = []
+    rlt_txt_list = []
+    current_segment = ""
+    if len(src_txt) > 500:
+        split_txt = src_txt.split('.')  # Split the text using '.' as a delimiter
+        
+        
+        for sentence in split_txt:
+            if len(current_segment) + len(sentence) < 500:
+                current_segment += sentence + '.'
+            else:
+                src_txt_list.append(current_segment)
+                current_segment = ""
+                current_segment = sentence + '.'
+
+        start_time = time.time()  
+        rlt_txt_list = []
+        for src_txt in src_txt_list:
+            r = get_response(read_token(), src_txt, src_lan, tar_lan) 
+            data = json.loads(r.text)
+            rlt_txt_list.append(data['message']['result']['translatedText'])
+            
+        trans_result = "".join(rlt_txt_list)
+        passed_time = time.time() - start_time
+
+    else:
+        start_time = time.time()
+        r = get_response(read_token(), src_txt, src_lan, tar_lan)
+        passed_time = time.time() - start_time
+        
+        data = json.loads(r.text)
+        trans_result = data['message']['result']['translatedText']
 
     result = {
         'result': True,
-        'original': text,
+        'original': src_txt,
         'version': data['message']['@version'],
         'srcLangType': data['message']['result']['srcLangType'],
         'tarLangType': data['message']['result']['tarLangType'],
-        'translatedText' : data['message']['result']['translatedText'],
+        'translatedText' : trans_result,
         'time': passed_time,
         'words': OrderedDict(),
     }
