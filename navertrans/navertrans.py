@@ -58,7 +58,7 @@ def get_response(TOKEN, text, src_lan, tar_lan):
     data = json.loads(r.text)
     
     if 'error' in data['message'] :
-        r = get_response(update_token(_agent), text)
+        r = get_response(update_token(_agent), text, src_lan, tar_lan)
              
     return r
 
