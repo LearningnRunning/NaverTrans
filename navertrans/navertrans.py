@@ -28,7 +28,6 @@ def read_token():
         return None
 
 def update_token(agent):
-    # https://search.naver.com/search.naver?sm=tab_hty.top&where=nexearch&query=%EB%B2%88%EC%97%AD%EA%B8%B0&oquery=%EB%B2%88%EC%97%AD%EA%B8%B0&tqi=igm9gwqVOsCssd%2FtTphssssssAo-159358
     html = agent.get(url='https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=번역기') 
 
     match = re.search('passportKey=([a-zA-Z0-9]+)', html.text)
@@ -63,6 +62,19 @@ def get_response(TOKEN, text, src_lan, tar_lan):
     return r
 
 
+# Function to check if a language code is valid
+def is_valid_language(language_code):
+    # Define the list of valid language codes
+    valid_language_codes = ['ru', 'pt', 'ja', 'it', 'vi', 'th', 'es', 'fr', 'hi', 'de', 'zh-CN', 'zh-TW']
+    return language_code in valid_language_codes
+
+# Function to check if source and target languages are valid
+def check_language_validity(src_lan, tar_lan):
+    if not is_valid_language(src_lan) or not is_valid_language(tar_lan):
+        raise ValueError("Invalid source or target language code. Please provide valid language codes.")
+    return True
+    
+
 def translate(src_txt, src_lan = 'en', tar_lan = 'ko'):
     """
     Translate text from one language to another.
@@ -75,6 +87,15 @@ def translate(src_txt, src_lan = 'en', tar_lan = 'ko'):
     Returns:
         str: The translated text in the target language.
     """
+    
+    try:
+        check_language_validity(src_lan, tar_lan)
+
+    except ValueError as e:
+        return e
+        
+    
+    
     if isinstance(src_txt, list):
         result = []
         for item in src_txt:
@@ -82,48 +103,62 @@ def translate(src_txt, src_lan = 'en', tar_lan = 'ko'):
             result.append(checked)
         return result
 
-    # # 최대 500자까지 가능.
-    # if len(src_txt) > 500:
-    #     return Checked(result=False)
-    
-    
+     
+    if src_lan not in ['en', 'ko']:
+        limited_len = 350
+    else:
+        limited_len = 450
+        
+    if src_lan in ['ja', 'zh-CN', 'zh-TW']:
+        src_txt = src_txt.replace(".", "。")
     src_txt_list = []
     rlt_txt_list = []
     current_segment = ""
-    if len(src_txt) > 500:
-        split_txt = src_txt.split('.')  # Split the text using '.' as a delimiter
+
+    if len(src_txt) > limited_len:
         
+        if "。" in src_txt: # Chinese, Japanese separator
+            split_str = "。"
+        elif src_lan == "th": # Thai separator
+            split_str = "ครับ"
+        else:
+            split_str = "."
+            
+        split_txt = src_txt.split(split_str)  # Split the text using 'split_str' as a delimiter
         
         for sentence in split_txt:
-            if len(current_segment) + len(sentence) < 500:
-                current_segment += sentence + '.'
+            if len(current_segment) + len(sentence) < limited_len:
+                current_segment += sentence + split_str
             else:
                 src_txt_list.append(current_segment)
                 current_segment = ""
-                current_segment = sentence + '.'
-
+                current_segment = sentence + split_str
+   
         start_time = time.time()  
         rlt_txt_list = []
         for src_txt in src_txt_list:
             r = get_response(read_token(), src_txt, src_lan, tar_lan) 
+
             data = json.loads(r.text)
+
+            
             rlt_txt_list.append(data['message']['result']['translatedText'])
             
         trans_result = "".join(rlt_txt_list)
+
         passed_time = time.time() - start_time
 
     else:
         start_time = time.time()
         r = get_response(read_token(), src_txt, src_lan, tar_lan)
         passed_time = time.time() - start_time
-        
         data = json.loads(r.text)
         trans_result = data['message']['result']['translatedText']
 
     result = {
         'result': True,
         'original': src_txt,
-        'version': data['message']['@version'],
+        # 'version': data['message']['@version'],
         'srcLangType': data['message']['result']['srcLangType'],
         'tarLangType': data['message']['result']['tarLangType'],
         'translatedText' : trans_result,

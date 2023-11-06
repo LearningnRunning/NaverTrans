@@ -21,20 +21,20 @@ python setup.py install
 
 ## List of languages ​​available for translation
 
-|language|language code|
-|-------|--------|
-|Russian | 'ru'|
-|Portuguese | 'pt'|
-|Japanese | 'ja'|
-|Italian | 'it'|
-|Vietnamese | 'vi'|
-|Thai | 'th'|
-|Spanish | 'es'|
-|French | 'fr'|
-|Hindi | 'hi'|
-|German | 'de'|
-|Simplified Chinese | 'zh-CN' (中文 (简体))|
-|Traditional Chinese | 'zh-TW' (中文 (繁體))|
+|language|language code|period separator|
+|-------|--------|----------|
+|Russian | 'ru'|.|
+|Portuguese | 'pt'|.|
+|Japanese | 'ja'|。|
+|Italian | 'it'|.|
+|Vietnamese | 'vi'|.|
+|Thai | 'th'|ครับ|
+|Spanish | 'es'|.|
+|French | 'fr'|.|
+|Hindi | 'hi'|.|
+|German | 'de'|.|
+|Simplified Chinese | 'zh-CN' (中文 (简体))|。|
+|Traditional Chinese | 'zh-TW' (中文 (繁體))|。|
 
 You can use these language codes when specifying the source and destination languages for translation in your NaverTrans project.
 
