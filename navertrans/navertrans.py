@@ -65,7 +65,7 @@ def get_response(TOKEN, text, src_lan, tar_lan):
 # Function to check if a language code is valid
 def is_valid_language(language_code):
     # Define the list of valid language codes
-    valid_language_codes = ['ru', 'pt', 'ja', 'it', 'vi', 'th', 'es', 'fr', 'hi', 'de', 'zh-CN', 'zh-TW']
+    valid_language_codes = ['en', 'ko', 'ru', 'pt', 'ja', 'it', 'vi', 'th', 'es', 'fr', 'hi', 'de', 'zh-CN', 'zh-TW']
     return language_code in valid_language_codes
 
 # Function to check if source and target languages are valid

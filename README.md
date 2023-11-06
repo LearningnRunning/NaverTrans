@@ -23,6 +23,8 @@ python setup.py install
 
 |language|language code|period separator|
 |-------|--------|----------|
+|Korean | 'ko'|.|
+|English | 'en'|.|
 |Russian | 'ru'|.|
 |Portuguese | 'pt'|.|
 |Japanese | 'ja'|。|
