@@ -126,13 +126,22 @@ def translate(src_txt, src_lan = 'en', tar_lan = 'ko'):
             
         split_txt = src_txt.split(split_str)  # Split the text using 'split_str' as a delimiter
         
-        for sentence in split_txt:
+        # Remove empty strings from the list
+        split_txt = [item for item in split_txt if item]
+        
+        for idx, sentence in enumerate(split_txt):
+            # print(sentence)
             if len(current_segment) + len(sentence) < limited_len:
                 current_segment += sentence + split_str
             else:
+      
                 src_txt_list.append(current_segment)
                 current_segment = ""
                 current_segment = sentence + split_str
+
+                if (idx+1) == len(split_txt):
+                    src_txt_list.append(current_segment)
+
    
         start_time = time.time()  
         rlt_txt_list = []
