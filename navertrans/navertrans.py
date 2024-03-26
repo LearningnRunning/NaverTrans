@@ -29,12 +29,19 @@ def read_token():
 
 def update_token(agent):
     html = agent.get(url='https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=번역기') 
-
-    match = re.search('passportKey=([a-zA-Z0-9]+)', html.text)
-    if match is not None:
-        TOKEN = parse.unquote(match.group(1))
-        cache['PASSPORT_TOKEN'] = TOKEN
-    return TOKEN
+    try:
+        match = re.search('passportKey=([a-zA-Z0-9]+)', html.text)
+        if match is not None:
+            TOKEN = parse.unquote(match.group(1))
+            cache['PASSPORT_TOKEN'] = TOKEN
+        return TOKEN
+    except UnboundLocalError as e:
+        time.sleep(2)
+        match = re.search('passportKey=([a-zA-Z0-9]+)', html.text)
+        if match is not None:
+            TOKEN = parse.unquote(match.group(1))
+            cache['PASSPORT_TOKEN'] = TOKEN
+        return TOKEN
 
 def get_response(TOKEN, text, src_lan, tar_lan):
     
