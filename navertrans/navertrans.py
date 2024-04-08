@@ -19,7 +19,6 @@ from .constants import base_url
 _agent = requests.Session()
 PY3 = sys.version_info[0] == 3
 cache = TTLCache(maxsize = 10, ttl = 3600)
-
 def read_token():
     try:
         TOKEN = cache.get('PASSPORT_TOKEN')
@@ -29,19 +28,12 @@ def read_token():
 
 def update_token(agent):
     html = agent.get(url='https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=1&ie=utf8&query=번역기') 
-    try:
-        match = re.search('passportKey=([a-zA-Z0-9]+)', html.text)
-        if match is not None:
-            TOKEN = parse.unquote(match.group(1))
-            cache['PASSPORT_TOKEN'] = TOKEN
-        return TOKEN
-    except UnboundLocalError as e:
-        time.sleep(2)
-        match = re.search('passportKey=([a-zA-Z0-9]+)', html.text)
-        if match is not None:
-            TOKEN = parse.unquote(match.group(1))
-            cache['PASSPORT_TOKEN'] = TOKEN
-        return TOKEN
+
+    match = re.search('passportKey=([a-zA-Z0-9]+)', html.text)
+    if match is not None:
+        TOKEN = parse.unquote(match.group(1))
+        cache['PASSPORT_TOKEN'] = TOKEN
+    return TOKEN
 
 def get_response(TOKEN, text, src_lan, tar_lan):
     
@@ -133,6 +125,11 @@ def translate(src_txt, src_lan = 'en', tar_lan = 'ko'):
             
         split_txt = src_txt.split(split_str)  # Split the text using 'split_str' as a delimiter
         
+        if len(split_txt) == 1:
+            # Split the text into chunks of 350 characters each
+            split_txt = [src_txt[i:i+300] for i in range(0, len(src_txt), 300)]
+        
+        print('len(split_txt)', len(split_txt))
         # Remove empty strings from the list
         split_txt = [item for item in split_txt if item]
         
@@ -141,7 +138,6 @@ def translate(src_txt, src_lan = 'en', tar_lan = 'ko'):
             if len(current_segment) + len(sentence) < limited_len:
                 current_segment += sentence + split_str
             else:
-      
                 src_txt_list.append(current_segment)
                 current_segment = ""
                 current_segment = sentence + split_str
