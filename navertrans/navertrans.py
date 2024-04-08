@@ -129,7 +129,7 @@ def translate(src_txt, src_lan = 'en', tar_lan = 'ko'):
             # Split the text into chunks of 350 characters each
             split_txt = [src_txt[i:i+300] for i in range(0, len(src_txt), 300)]
         
-        print('len(split_txt)', len(split_txt))
+        # print('len(split_txt)', len(split_txt))
         # Remove empty strings from the list
         split_txt = [item for item in split_txt if item]
         
